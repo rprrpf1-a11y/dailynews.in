@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy | {{ settings.site_title_en }}{% endblock %}
+
+{% block content %}
+<div class="container static-page-container">
+    <div class="static-content-card">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: October 2026</p>
+
+        <p>At <strong>{{ settings.site_title_en }}</strong>, accessible from our domain, one of our main priorities is the privacy of our visitors. This Privacy Policy document outlines the types of information that is collected and recorded by us and how we utilize it.</p>
+
+        <h2>1. Google AdSense & Third-Party Cookies</h2>
+        <p>Google is one of the third-party vendors on our site. It uses cookies, commonly known as DART cookies, to serve ads to our website visitors based on their visit to our site and other websites on the internet. Visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">https://policies.google.com/technologies/ads</a>.</p>
+
+        <h2>2. Affiliate Links and Partner Networks</h2>
+        <p>Some of the links on this website are affiliate links. When users click on these links and make a purchase or subscribe to a service, a tracking cookie is placed by the affiliate merchant network to record the referral. No personal identifiable information is shared with or stored by us during this automated tracking mechanism.</p>
+
+        <h2>3. Log Files</h2>
+        <p>{{ settings.site_title_en }} follows a standard procedure of utilizing log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.</p>
+
+        <h2>4. CCPA & GDPR Privacy Rights</h2>
+        <p>We respect the privacy rights of all visitors globally. Under GDPR and CCPA, you have the right to request access to the personal data we hold about you, request rectification or erasure of your personal data, and restrict or object to processing. To exercise any of these rights, please contact us at <code>{{ settings.contact_email }}</code>.</p>
+
+        <h2>5. Consent</h2>
+        <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+    </div>
+</div>
+{% endblock %}

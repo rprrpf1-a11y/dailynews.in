@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Authentication | {{ settings.site_title_en }}{% endblock %}
+
+{% block content %}
+<div class="container static-page-container">
+    <div class="static-content-card" style="max-width: 480px; margin: 40px auto; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 12px;">🔒</div>
+        <h1 style="font-size: 1.8rem; margin-bottom: 8px;">Admin Login</h1>
+        <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 24px;">Enter your secure administrator password to manage site settings, AdSense publisher configuration, and articles.</p>
+
+        {% if error %}
+        <div style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 18px;">
+            ⚠️ {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('admin_login') }}" method="POST" style="text-align: left;">
+            <div class="form-group">
+                <label for="password">Administrator Password:</label>
+                <input type="password" id="password" name="password" class="form-input" required placeholder="Enter admin password..." autofocus>
+            </div>
+            <button type="submit" class="btn-primary-action" style="width: 100%; padding: 12px; margin-top: 10px; font-size: 1rem;">
+                🔓 Log In to Admin Console
+            </button>
+        </form>
+
+        <p style="margin-top: 20px; font-size: 0.75rem; color: #94a3b8;">
+            🛡️ Unauthorized access attempts are monitored and logged.
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -227,6 +227,15 @@
                     <a href="{{ url_for('affiliate_disclosure') }}">Affiliate</a>
                     <span>•</span>
                     <a href="{{ url_for('sitemap') }}">Sitemap</a>
+                    {% if is_admin %}
+                    <span>•</span>
+                    <a href="{{ url_for('admin') }}">⚙️ Admin</a>
+                    <span>•</span>
+                    <a href="{{ url_for('admin_logout') }}">Logout</a>
+                    {% else %}
+                    <span>•</span>
+                    <a href="{{ url_for('admin_login') }}" style="opacity: 0.35; font-size: 0.75rem;" title="Admin Portal">🔒 Admin Login</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

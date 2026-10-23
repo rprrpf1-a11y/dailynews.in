@@ -137,40 +137,8 @@
             {% endfor %}
         </div>
 
-        <!-- Sidebar (AdSense 300x250, Affiliate Spotlight, Test Generator Trigger) -->
+        <!-- Sidebar (AdSense 300x250, Affiliate Spotlight, Categories) -->
         <aside class="sidebar-column">
-            {% if is_admin %}
-            <!-- 1-Click Instant Test Post Generator Widget (Admin Only) -->
-            <div class="sidebar-widget test-generator-widget">
-                <div class="widget-header">
-                    <span class="widget-icon">⚡</span>
-                    <h4 class="widget-title">
-                        {% if lang == 'hi' %}दैनिक टेस्ट पोस्ट जेनरेटर{% else %}Daily Blog Test Generator{% endif %}
-                    </h4>
-                </div>
-                <p class="widget-desc">
-                    {% if lang == 'hi' %}
-                    तत्काल एक नया द्विभाषी लेख (हिन्दी और अंग्रेज़ी में) प्रकाशित करके टेस्ट करें:
-                    {% else %}
-                    Instantly test and generate a new bilingual post in Hindi and English:
-                    {% endif %}
-                </p>
-                <div class="test-gen-form">
-                    <select id="quickCatSelect" class="test-select">
-                        <option value="">🎲 Random (कोई भी श्रेणी)</option>
-                        <option value="news">📰 World News (समाचार)</option>
-                        <option value="politics">🏛️ Politics (राजनीति)</option>
-                        <option value="finance">💹 Forex & BTC (एल्गोरिथमिक वित्त)</option>
-                        <option value="sci-tech">💻 Computers & Phones (कंप्यूटर एवं स्मार्टफोन)</option>
-                    </select>
-                    <button type="button" id="btnQuickGenerate" class="btn-generate-test" onclick="triggerTestGenerate()">
-                        🚀 {% if lang == 'hi' %}टेस्ट पोस्ट बनाएं{% else %}Generate Test Post{% endif %}
-                    </button>
-                    <div id="genStatus" class="gen-status-box"></div>
-                </div>
-            </div>
-            {% endif %}
-
             <!-- AdSense Medium Rectangle (300x250) -->
             {% if settings.ads_enabled == '1' %}
             <div class="sidebar-widget ad-sidebar-widget">

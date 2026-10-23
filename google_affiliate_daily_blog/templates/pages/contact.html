@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us | {{ settings.site_title_en }}{% endblock %}
+
+{% block content %}
+<div class="container static-page-container">
+    <div class="static-content-card">
+        <h1>Contact Editorial & AdSense Compliance</h1>
+        <p class="lead-highlight">Have a news tip, advertising inquiry, or editorial question? We’d love to hear from you.</p>
+
+        <div class="contact-grid">
+            <div class="contact-info-block">
+                <h3>Editorial Headquarters</h3>
+                <p><strong>Publication:</strong> {{ settings.site_title_en }}</p>
+                <p><strong>Primary Editorial Email:</strong> <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></p>
+                <p><strong>AdSense & Compliance Desk:</strong> compliance@globalpulseaffiliate.com</p>
+                <p><strong>Operating Schedule:</strong> 24/7 Editorial Intelligence Automation</p>
+                <p><strong>Languages Supported:</strong> English & हिन्दी (Hindi)</p>
+            </div>
+
+            <div class="contact-form-block">
+                <h3>Send Us a Message</h3>
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been received by our editorial desk.');">
+                    <div class="form-group">
+                        <label for="c_name">Full Name:</label>
+                        <input type="text" id="c_name" class="form-input" required placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="c_email">Email Address:</label>
+                        <input type="email" id="c_email" class="form-input" required placeholder="name@domain.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="c_subject">Inquiry Subject:</label>
+                        <select id="c_subject" class="form-input">
+                            <option>Editorial Feedback / Fact Check</option>
+                            <option>Advertising & Affiliate Partnership</option>
+                            <option>Google AdSense Query</option>
+                            <option>General Support</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="c_message">Message:</label>
+                        <textarea id="c_message" rows="5" class="form-input" required placeholder="Type your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary-action">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

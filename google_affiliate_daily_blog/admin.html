@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard & Daily Test Blog Generator | {{ settings.site_title_en }}{% endblock %}
+
+{% block content %}
+<div class="container admin-container">
+    <div class="admin-header-row">
+        <div>
+            <h1 class="admin-title">⚡ Admin & Daily Blog Operations Console</h1>
+            <p class="admin-subtitle">Manage automated daily blog posting, Google AdSense & Affiliate monetization, and content test generation.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="admin-status-badge">
+                <span class="pulse-indicator"></span> Scheduler: Active (Daily 08:00 AM)
+            </div>
+            <a href="{{ url_for('admin_logout') }}" class="table-btn delete-btn" style="padding: 8px 14px; font-size: 0.85rem; text-decoration: none;">🚪 Logout</a>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-num">{{ stats.total_posts or 0 }}</span>
+            <span class="stat-label">Total Articles Published</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num">{{ stats.total_views or 0 }}</span>
+            <span class="stat-label">Total Cumulative Views</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num">4</span>
+            <span class="stat-label">Active Categories (News, Politics, Finance, Tech)</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-num">Bilingual</span>
+            <span class="stat-label">English (EN) & Hindi (हिन्दी)</span>
+        </div>
+    </div>
+
+    <div class="admin-grid-two-col">
+        <!-- Live News Autopost Bot Card -->
+        <div class="admin-card highlight-card" style="border-top: 4px solid #10b981;">
+            <div class="card-title-row">
+                <h3>🤖 Live News Autopost Bot (Simple Human Language)</h3>
+                <span class="badge-test" style="background: #d1fae5; color: #065f46;">Live RSS Active</span>
+            </div>
+            <p>Scans real-time trending news from Google News & global feeds, rewrites it into easy conversational human language (<em>What Happened, Why It Matters, Key Takeaways</em>) in both <strong>English and हिन्दी</strong>, and publishes it immediately.</p>
+
+            <div class="gen-tool-box">
+                <label for="botCatSelect">Category for Live News Analysis:</label>
+                <div class="gen-controls-row">
+                    <select id="botCatSelect" class="form-input">
+                        <option value="">🌐 Any Trending Category</option>
+                        <option value="sci-tech">💻 Computers, Smartphones & Tech</option>
+                        <option value="news">📰 World News</option>
+                        <option value="politics">🏛️ Politics & Policy</option>
+                        <option value="finance">💹 Forex & Bitcoin Markets</option>
+                    </select>
+                    <button type="button" class="btn-primary-action" style="background: #059669;" id="botRunBtn" onclick="runLiveNewsBot()">
+                        🤖 Analyze & Post News
+                    </button>
+                </div>
+                <div id="botResult" class="result-feedback-box"></div>
+            </div>
+        </div>
+
+        <!-- 1-Click Test Post Generator Card -->
+        <div class="admin-card highlight-card">
+            <div class="card-title-row">
+                <h3>🚀 Generate Daily Test Post (Instant On-Demand)</h3>
+                <span class="badge-test">Test Mode Ready</span>
+            </div>
+            <p>Trigger an immediate daily blog post generation across any category. The post will be drafted and published instantly with complete English and Hindi (Devanagari) versions, image, and affiliate box.</p>
+
+            <div class="gen-tool-box">
+                <label for="adminCatSelect">Select Category for Test Post:</label>
+                <div class="gen-controls-row">
+                    <select id="adminCatSelect" class="form-input">
+                        <option value="">🎲 Random (Auto-select Category)</option>
+                        <option value="news">📰 World News (समाचार)</option>
+                        <option value="politics">🏛️ Politics & Policy (राजनीति)</option>
+                        <option value="finance">💹 Algorithmic Forex & BTC (एल्गोरिथमिक वित्त)</option>
+                        <option value="sci-tech">💻 Computers, Smartphones & Hardware (कंप्यूटर एवं स्मार्टफोन)</option>
+                    </select>
+                    <button type="button" class="btn-primary-action" id="adminGenBtn" onclick="runAdminTestGenerate()">
+                        ⚡ Generate Post Now
+                    </button>
+                </div>
+                <div id="adminGenResult" class="result-feedback-box"></div>
+            </div>
+        </div>
+
+        <!-- Google AdSense & Affiliate Settings -->
+        <div class="admin-card">
+            <h3>⚙️ Monetization & AdSense Configuration</h3>
+            <form action="{{ url_for('admin') }}" method="POST" class="settings-form">
+                <input type="hidden" name="action" value="save_settings">
+
+                <div class="form-group">
+                    <label for="adsense_client_id">Google AdSense Publisher ID:</label>
+                    <input type="text" id="adsense_client_id" name="adsense_client_id" class="form-input" value="{{ settings.adsense_client_id }}" placeholder="ca-pub-1234567890123456">
+                    <small>Get this from your Google AdSense account. Banners and in-article ads will link here.</small>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" name="ads_enabled" value="1" {% if settings.ads_enabled == '1' %}checked{% endif %}>
+                        <strong>Enable Google AdSense & Affiliate Banners across website</strong>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="default_affiliate_cta">Primary Affiliate Product / Platform Link:</label>
+                    <input type="url" id="default_affiliate_cta" name="default_affiliate_cta" class="form-input" value="{{ settings.default_affiliate_cta }}" placeholder="https://your-affiliate-link.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="contact_email">Editor / AdSense Compliance Email:</label>
+                    <input type="email" id="contact_email" name="contact_email" class="form-input" value="{{ settings.contact_email }}" placeholder="editor@domain.com">
+                </div>
+
+                <div class="form-group" style="border-top: 1px solid #e2e8f0; padding-top: 14px;">
+                    <label for="new_password">🔑 Change Administrator Password (Optional):</label>
+                    <input type="password" id="new_password" name="new_password" class="form-input" placeholder="Enter new password to change...">
+                    <small>Leave blank to keep your current administrator password.</small>
+                </div>
+
+                <button type="submit" class="btn-secondary-action">Save Monetization Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Published Articles Table -->
+    <div class="admin-card full-width-card">
+        <div class="card-title-row">
+            <h3>📚 Published Articles Database ({{ posts|length }} Total)</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Title (English & Hindi)</th>
+                        <th>Views</th>
+                        <th>Published Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in posts %}
+                    <tr>
+                        <td>#{{ p.id }}</td>
+                        <td>
+                            <span class="card-badge {{ categories[p.category].badge_class }}">
+                                {{ categories[p.category].icon }} {{ categories[p.category].name_en }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="table-titles">
+                                <strong><a href="{{ url_for('post_detail', slug=p.slug) }}" target="_blank">{{ p.title_en }}</a></strong>
+                                <span class="hindi-sub">{{ p.title_hi }}</span>
+                            </div>
+                        </td>
+                        <td>{{ p.views }}</td>
+                        <td>{{ p.created_at[:16] }}</td>
+                        <td class="action-cell">
+                            <a href="{{ url_for('post_detail', slug=p.slug) }}" target="_blank" class="table-btn view-btn">View</a>
+                            <form action="{{ url_for('delete_post', post_id=p.id) }}" method="POST" onsubmit="return confirm('Delete this post?');" style="display:inline;">
+                                <button type="submit" class="table-btn delete-btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function runLiveNewsBot() {
+    const btn = document.getElementById('botRunBtn');
+    const resultBox = document.getElementById('botResult');
+    const category = document.getElementById('botCatSelect').value;
+
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Scanning RSS & analyzing...';
+    resultBox.style.display = 'block';
+    resultBox.className = 'result-feedback-box loading';
+    resultBox.innerHTML = 'Fetching top trending news, translating into plain human language in English and हिन्दी, and selecting cover imagery...';
+
+    fetch('/api/run-news-bot', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ category: category })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 Analyze & Post News';
+        if (data.success) {
+            resultBox.className = 'result-feedback-box success';
+            resultBox.innerHTML = `
+                ✅ <strong>Live News Analyzed & Published!</strong><br>
+                <strong>EN:</strong> ${data.title_en}<br>
+                <strong>HI:</strong> ${data.title_hi}<br>
+                <a href="/post/${data.slug}" target="_blank" class="test-preview-link">👉 View published humanized article</a>
+            `;
+            setTimeout(() => { location.reload(); }, 3500);
+        } else {
+            resultBox.className = 'result-feedback-box error';
+            resultBox.innerHTML = '❌ Bot error: ' + (data.error || 'Failed to analyze news.');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 Analyze & Post News';
+        resultBox.className = 'result-feedback-box error';
+        resultBox.innerHTML = '❌ Network error: ' + err;
+    });
+}
+
+function runAdminTestGenerate() {
+    const btn = document.getElementById('adminGenBtn');
+    const resultBox = document.getElementById('adminGenResult');
+    const category = document.getElementById('adminCatSelect').value;
+
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Generating bilingual post...';
+    resultBox.style.display = 'block';
+    resultBox.className = 'result-feedback-box loading';
+    resultBox.innerHTML = 'Drafting article in English and Hindi (Devanagari), curating imagery, and configuring affiliate cards...';
+
+    fetch('/api/generate-test-post', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ category: category })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '⚡ Generate Post Now';
+        if (data.success) {
+            resultBox.className = 'result-feedback-box success';
+            resultBox.innerHTML = `
+                ✅ <strong>Success! Post published:</strong><br>
+                <strong>EN:</strong> ${data.post.title_en}<br>
+                <strong>HI:</strong> ${data.post.title_hi}<br>
+                <a href="/post/${data.post.slug}" target="_blank" class="test-preview-link">👉 Click here to view live published post</a>
+            `;
+            setTimeout(() => { location.reload(); }, 3500);
+        } else {
+            resultBox.className = 'result-feedback-box error';
+            resultBox.innerHTML = '❌ Error generating post.';
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = '⚡ Generate Post Now';
+        resultBox.className = 'result-feedback-box error';
+        resultBox.innerHTML = '❌ Request failed: ' + err;
+    });
+}
+</script>
+{% endblock %}

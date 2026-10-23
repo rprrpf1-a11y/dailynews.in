@@ -348,22 +348,28 @@ def generate_post(category=None):
     }
 
 def schedule_worker():
-    """Background worker for automated daily posting."""
+    """Background worker for automated daily posting and news analysis bot."""
     import schedule
+    from news_bot import run_autopost_bot
     
     def job():
-        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Automated Daily Post Job Running...")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Automated Autopost News Bot Running...")
         try:
-            for cat in ['news', 'politics', 'finance', 'sci-tech']:
-                post = generate_post(cat)
-                print(f"Published daily post: {post['slug']} ({cat})")
+            # 1. Fetch and publish live analyzed news in human-friendly language
+            for cat in ['sci-tech', 'news', 'finance', 'politics']:
+                res = run_autopost_bot(cat)
+                if res.get('success'):
+                    print(f"Autopost Bot published: {res['slug']} ({cat})")
+                else:
+                    # Fallback to topic pool if RSS feed is temporarily unreachable
+                    post = generate_post(cat)
+                    print(f"Fallback generator published: {post['slug']} ({cat})")
         except Exception as e:
             print(f"Scheduler job error: {e}")
             
-    # Schedule daily at 08:00 AM every day
+    # Schedule every 6 hours and at 08:00 AM every day
     schedule.every().day.at("08:00").do(job)
-    # Also schedule a periodic check every 12 hours
-    schedule.every(12).hours.do(job)
+    schedule.every(6).hours.do(job)
     
     while True:
         schedule.run_pending()

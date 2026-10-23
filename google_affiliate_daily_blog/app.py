@@ -34,9 +34,9 @@ CATEGORY_META = {
         'badge_class': 'badge-finance'
     },
     'sci-tech': {
-        'name_en': 'Science & Technology',
-        'name_hi': 'विज्ञान और प्रौद्योगिकी',
-        'icon': '🔬',
+        'name_en': 'Computers, Phones & Tech',
+        'name_hi': 'कंप्यूटर, स्मार्टफोन एवं तकनीक',
+        'icon': '💻',
         'badge_class': 'badge-tech'
     }
 }
@@ -225,6 +225,15 @@ def feed():
     xml_content = render_template('feed.xml', posts=posts, base_url=base_url, now=datetime.now(timezone.utc))
     resp = make_response(xml_content)
     resp.headers['Content-Type'] = 'application/rss+xml'
+    return resp
+
+@app.route('/ads.txt')
+def ads_txt():
+    settings = get_settings()
+    pub_id = settings.get('adsense_client_id', '').replace('ca-', '')
+    content = f"google.com, {pub_id}, DIRECT, f08c47fec0942fa0\n"
+    resp = make_response(content)
+    resp.headers['Content-Type'] = 'text/plain'
     return resp
 
 @app.route('/robots.txt')

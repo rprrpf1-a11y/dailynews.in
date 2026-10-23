@@ -50,7 +50,7 @@ def init_db():
         'site_title_hi': 'ग्लोबल पल्स एवं टेक दैनिक',
         'site_tagline_en': 'Daily Insightful Analysis on News, Politics, Finance & Science-Tech',
         'site_tagline_hi': 'समाचार, राजनीति, वित्त एवं विज्ञान-प्रौद्योगिकी का दैनिक गहन विश्लेषण',
-        'adsense_client_id': 'ca-pub-1234567890123456',
+        'adsense_client_id': 'ca-pub-6952604134216495',
         'ads_enabled': '1',
         'auto_post_schedule': 'daily', # daily automated posting
         'affiliate_disclosure_en': 'Disclosure: This post contains affiliate links. When you make a purchase or sign up through our links, we may earn an affiliate commission at no extra cost to you.',
